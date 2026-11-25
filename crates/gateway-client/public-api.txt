@@ -170,11 +170,32 @@ impl core::marker::Unpin for gateway_client::Error
 impl core::marker::UnsafeUnpin for gateway_client::Error
 impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::Error
 impl core::panic::unwind_safe::UnwindSafe for gateway_client::Error
+pub struct gateway_client::Gateway
+impl gateway_client::Gateway
+pub fn gateway_client::Gateway::client(&self) -> gateway_client::GatewayChat
+pub fn gateway_client::Gateway::endpoint(&self) -> &gateway_client::GatewayEndpoint
+pub fn gateway_client::Gateway::find() -> core::result::Result<gateway_client::Gateway, gateway_client::Error>
+pub fn gateway_client::Gateway::find_env() -> core::result::Result<gateway_client::Gateway, gateway_client::Error>
+pub fn gateway_client::Gateway::find_env_named(&str, &str) -> core::result::Result<gateway_client::Gateway, gateway_client::Error>
+pub fn gateway_client::Gateway::find_in(&std::path::Path) -> core::result::Result<gateway_client::Gateway, gateway_client::Error>
+pub fn gateway_client::Gateway::key(&self) -> core::option::Option<&gateway_client::SecretString>
+pub fn gateway_client::Gateway::new(gateway_client::GatewayEndpoint) -> gateway_client::Gateway
+pub fn gateway_client::Gateway::with_key(self, gateway_client::SecretString) -> gateway_client::Gateway
+impl core::clone::Clone for gateway_client::Gateway
+pub fn gateway_client::Gateway::clone(&self) -> gateway_client::Gateway
+impl core::fmt::Debug for gateway_client::Gateway
+pub fn gateway_client::Gateway::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Freeze for gateway_client::Gateway
+impl core::marker::Send for gateway_client::Gateway
+impl core::marker::Sync for gateway_client::Gateway
+impl core::marker::Unpin for gateway_client::Gateway
+impl core::marker::UnsafeUnpin for gateway_client::Gateway
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::Gateway
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::Gateway
 pub struct gateway_client::GatewayChat
 impl gateway_client::GatewayChat
 pub async fn gateway_client::GatewayChat::complete<M: serde_core::ser::Serialize + core::marker::Sync>(&self, &[M], core::option::Option<&[gateway_client::Tool]>, &gateway_client::Options, impl core::ops::function::Fn(gateway_client::StreamDelta)) -> core::result::Result<gateway_client::Reply, gateway_client::Error>
 pub fn gateway_client::GatewayChat::disabled() -> gateway_client::GatewayChat
-pub fn gateway_client::GatewayChat::from_env() -> core::result::Result<gateway_client::GatewayChat, gateway_client::Error>
 pub fn gateway_client::GatewayChat::keyless(gateway_client::GatewayEndpoint) -> gateway_client::GatewayChat
 pub fn gateway_client::GatewayChat::new(gateway_client::GatewayEndpoint, gateway_client::SecretString) -> gateway_client::GatewayChat
 pub fn gateway_client::GatewayChat::with_request_limits(self, core::time::Duration, core::num::nonzero::NonZeroU64) -> gateway_client::GatewayChat

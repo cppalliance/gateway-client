@@ -21,16 +21,33 @@ serde_json.workspace = true
 # `time` for the per-receive timeout. Non-test code spawns no task.
 tokio.workspace = true
 url.workspace = true
+thiserror = { workspace = true, optional = true }
+
+# Process-image lookup for liveness (src/discovery/sys/macos.rs): proc_pidpath.
+[target.'cfg(target_os = "macos")'.dependencies]
+libc = { workspace = true, optional = true }
+
+# Process-image lookup for liveness (src/discovery/sys/windows.rs):
+# OpenProcess + QueryFullProcessImageNameW.
+[target.'cfg(target_os = "windows")'.dependencies]
+windows-sys = { workspace = true, optional = true, features = [
+    "Win32_Foundation",
+    "Win32_System_Threading",
+] }
 
 [features]
-# Reserved for the discovery reader, which a later change adds. Until then it
-# is empty and off.
-default = []
-discovery = []
+# Finding a Gateway on this machine through the `gateway.json` that the Gateway
+# writes. The feature gates a real constraint: platform code that needs extra
+# dependencies and `unsafe`. A program that talks only to a stock server turns
+# it off and compiles none of that.
+default = ["discovery"]
+discovery = ["dep:thiserror", "dep:libc", "dep:windows-sys"]
 
 [dev-dependencies]
 # The mock gateways the client tests send real rounds to.
 axum.workspace = true
+# The discovery reader's tests write gateway.json into a temp dir.
+tempfile.workspace = true
 # The raw-socket mocks read the request and write paced or truncated
 # responses by hand, and the transport tests pause tokio's clock.
 tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net", "io-util", "test-util"] }

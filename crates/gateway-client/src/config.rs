@@ -158,8 +158,8 @@ impl GatewayEndpoint {
     /// `127.0.0.0/8`, and for `::1`. It returns `false` for every other name
     /// or address. By default, a gateway on the local machine accepts callers
     /// that omit the key, so
-    /// [`GatewayChat::from_env`](crate::GatewayChat::from_env) makes the
-    /// bearer key optional exactly when this returns `true`.
+    /// [`Gateway::find_env`](crate::Gateway::find_env) makes the bearer key
+    /// optional exactly when this returns `true`.
     #[must_use]
     pub fn is_loopback(&self) -> bool {
         self.loopback

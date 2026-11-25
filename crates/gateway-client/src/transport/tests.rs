@@ -114,18 +114,3 @@ fn keyed_client(base: &str) -> GatewayChat {
         SecretString::new("tok").expect("non-empty test key"),
     )
 }
-
-fn lookup_from<'a>(
-    pairs: &'a [(&'a str, &'a str)],
-) -> impl Fn(&str) -> Result<Option<String>, Error> + 'a {
-    let pairs: Vec<(String, String)> = pairs
-        .iter()
-        .map(|(name, value)| ((*name).to_owned(), (*value).to_owned()))
-        .collect();
-    move |name| {
-        Ok(pairs
-            .iter()
-            .find(|(key, _)| key == name)
-            .map(|(_, value)| value.clone()))
-    }
-}

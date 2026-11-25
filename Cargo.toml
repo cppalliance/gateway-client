@@ -28,8 +28,17 @@ serde_json = { version = "1", features = ["float_roundtrip"] }
 reqwest = { version = "0.13", default-features = false, features = ["json", "query", "rustls", "stream", "system-proxy"] }
 url = "2"
 tokio = { version = "1", features = ["time"] }
+# The discovery reader derives its errors with `thiserror`, and it asks the
+# operating system which program a process id runs through `libc` on macOS
+# and `windows-sys` on Windows. Linux reads `/proc`. All three are optional
+# and belong to the `discovery` feature.
+thiserror = "2"
+libc = "0.2"
+windows-sys = { version = "0.61", default-features = false }
 # Dev-only: the mock servers that the client's tests send real requests to.
 axum = "0.8"
+# Dev-only: the discovery reader's tests write gateway.json into a temp dir.
+tempfile = "3"
 
 # The dylint libraries `cargo dylint --all` runs. The lints live in their
 # own repository, shared across the runvil project, because they build on

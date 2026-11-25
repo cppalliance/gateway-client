@@ -1,8 +1,6 @@
-//! Environment loading, the bearer on the wire, and the credential and
-//! endpoint guards.
+//! The bearer on the wire, and the credential and endpoint guards.
 
 use super::*;
-use crate::config::make_invalid_env_error;
 use crate::error::ErrorKind;
 use crate::message::{Message, Role};
 
@@ -14,92 +12,6 @@ fn assert_setup_error(error: &Error, reason: &str, variable: Option<&str>) {
     assert_eq!(error.reason, Some(reason), "{error:?}");
     assert_eq!(error.name.as_deref(), variable, "{error:?}");
     assert_eq!(error.summary, error.message, "{error:?}");
-}
-
-#[test]
-fn from_env_surfaces_non_unicode_value_instead_of_dropping_it() {
-    let err = from_env_with(|name| {
-        if name == "RUNVIL_GATEWAY_URL" {
-            Err(make_invalid_env_error(name))
-        } else {
-            Ok(Some("tok".to_owned()))
-        }
-    })
-    .expect_err("a non-Unicode variable must be surfaced, not treated as missing");
-    assert_setup_error(&err, "invalid_env", Some("RUNVIL_GATEWAY_URL"));
-    assert_eq!(
-        err.to_string(),
-        "environment variable is set but not valid Unicode: RUNVIL_GATEWAY_URL"
-    );
-}
-
-#[test]
-fn from_env_missing_gateway_url() {
-    let err = from_env_with(lookup_from(&[("RUNVIL_GATEWAY_API_KEY", "tok")]))
-        .expect_err("missing URL must fail");
-    assert_eq!(
-        err.to_string(),
-        "missing environment variable: RUNVIL_GATEWAY_URL"
-    );
-    assert_setup_error(&err, "missing_env", Some("RUNVIL_GATEWAY_URL"));
-}
-
-#[test]
-fn from_env_missing_gateway_key() {
-    // A LAN gateway never trusts a keyless caller, so the key stays required
-    // there; an empty value is the same as no value. Only the exact name
-    // `localhost` is loopback: a name that merely contains it is not.
-    for key_pairs in [
-        vec![("RUNVIL_GATEWAY_URL", "http://192.168.1.20:8081/v1")],
-        vec![
-            ("RUNVIL_GATEWAY_URL", "http://192.168.1.20:8081/v1"),
-            ("RUNVIL_GATEWAY_API_KEY", ""),
-        ],
-        vec![("RUNVIL_GATEWAY_URL", "https://gateway.example.com/v1")],
-        vec![("RUNVIL_GATEWAY_URL", "http://localhost.evil.com:8081/v1")],
-        vec![("RUNVIL_GATEWAY_URL", "http://notlocalhost:8081/v1")],
-    ] {
-        let err = from_env_with(lookup_from(&key_pairs))
-            .expect_err("missing key against a non-loopback gateway must fail");
-        assert_setup_error(&err, "missing_env", Some("RUNVIL_GATEWAY_API_KEY"));
-    }
-}
-
-#[test]
-fn from_env_missing_gateway_key_is_fine_for_a_loopback_gateway() {
-    // A loopback gateway trusts keyless same-machine callers by default, so
-    // the key is optional for every loopback spelling; the built client is
-    // the keyless one, which the Debug form cannot distinguish (no presence
-    // signal leaks), so the header test below pins what it sends.
-    for url in [
-        "http://127.0.0.1:8081/v1",
-        "http://127.0.0.2:8081/v1",
-        "http://[::1]:8081/v1",
-        "http://localhost:8081/v1",
-        "http://LOCALHOST:8081/v1",
-    ] {
-        let client = from_env_with(lookup_from(&[("RUNVIL_GATEWAY_URL", url)]))
-            .unwrap_or_else(|err| panic!("a loopback URL needs no key, got {err:?} for {url}"));
-        assert!(
-            !client.has_key(),
-            "the client built for {url} must leave the key unset"
-        );
-        let empty_key = from_env_with(lookup_from(&[
-            ("RUNVIL_GATEWAY_URL", url),
-            ("RUNVIL_GATEWAY_API_KEY", ""),
-        ]))
-        .unwrap_or_else(|err| panic!("an empty key on loopback is unset, got {err:?} for {url}"));
-        assert!(!empty_key.has_key());
-    }
-    let keyed = from_env_with(lookup_from(&[
-        ("RUNVIL_GATEWAY_URL", "http://127.0.0.1:8081/v1"),
-        ("RUNVIL_GATEWAY_API_KEY", "tok"),
-    ]))
-    .expect("a loopback URL with a key builds");
-    assert!(
-        keyed.has_key(),
-        "a key that is set is kept even on loopback"
-    );
 }
 
 /// Spawns a gateway that records the `Authorization` header of each

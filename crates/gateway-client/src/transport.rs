@@ -1,5 +1,4 @@
-//! The HTTP transport: the gateway client, bounded SSE response reading,
-//! and environment loading.
+//! The HTTP transport: the gateway client and bounded SSE response reading.
 //!
 //! The request body, the stream reassembly, and the read loop that applies
 //! the byte cap and measures the timing are the shared wire code in
@@ -13,9 +12,7 @@ use std::time::{Duration, Instant};
 
 use serde::Serialize;
 
-use crate::config::{
-    GatewayEndpoint, SecretString, make_invalid_env_error, make_missing_env_error,
-};
+use crate::config::{GatewayEndpoint, SecretString};
 use crate::error::Error;
 use crate::failure::{make_elapsed_error, make_transport_failure_error, make_unavailable_error};
 use crate::options::{Options, Tool};
@@ -91,8 +88,8 @@ impl GatewayChat {
     /// bearer key.
     ///
     /// The endpoint is a validated [`GatewayEndpoint`], and the key is a
-    /// [`SecretString`], which keeps it redacted. [`GatewayChat::from_env`]
-    /// builds its client this way when a key is set.
+    /// [`SecretString`], which keeps it redacted. [`Gateway::client`](crate::Gateway::client)
+    /// builds its client this way when the Gateway has a key.
     #[must_use]
     pub fn new(endpoint: GatewayEndpoint, key: SecretString) -> GatewayChat {
         GatewayChat {
@@ -115,7 +112,8 @@ impl GatewayChat {
     ///
     /// This constructor accepts an endpoint with any host, so the caller
     /// decides when a keyless client is appropriate.
-    /// [`GatewayChat::from_env`] decides by [`GatewayEndpoint::is_loopback`].
+    /// [`Gateway::find_env`](crate::Gateway::find_env) decides by
+    /// [`GatewayEndpoint::is_loopback`].
     #[must_use]
     pub fn keyless(endpoint: GatewayEndpoint) -> GatewayChat {
         GatewayChat {
@@ -144,10 +142,10 @@ impl GatewayChat {
         }
     }
 
-    /// Whether this client presents a bearer key; a test seam for the
-    /// environment constructor, which never exposes the key itself.
+    /// Whether this client presents a bearer key; a test seam, because the
+    /// client never exposes the key itself.
     #[cfg(test)]
-    fn has_key(&self) -> bool {
+    pub(crate) fn has_key(&self) -> bool {
         self.key.is_some()
     }
 
@@ -170,37 +168,6 @@ impl GatewayChat {
         self.receive_timeout = receive_timeout;
         self.max_response_bytes = max_response_bytes.get();
         self
-    }
-
-    /// Builds a client from environment variables.
-    ///
-    /// - `RUNVIL_GATEWAY_URL` holds the gateway URL. It is required.
-    /// - `RUNVIL_GATEWAY_API_KEY` holds the gateway's shared bearer key.
-    ///   An empty value counts as missing. The key is optional when the
-    ///   URL's host is loopback (`127.0.0.1`, `::1`, `localhost`) and
-    ///   required for every other host. By default, a loopback gateway
-    ///   trusts keyless callers on the same machine, so for a loopback URL a
-    ///   missing key yields a keyless client.
-    ///
-    /// That trust also admits every other OS account on a shared machine, so
-    /// the gateway's operator there sets `trust_loopback = false`. Then set
-    /// the key, or a keyless client's requests fail with an
-    /// `Unavailable`-kind error when the gateway answers 401.
-    ///
-    /// # Errors
-    /// Returns an [`InvalidConfig`](crate::ErrorKind::InvalidConfig)
-    /// setup error when `RUNVIL_GATEWAY_URL` is missing or invalid, when
-    /// either variable is set to a value that is not valid Unicode, or when
-    /// the URL's host is not loopback (a LAN or remote gateway) and
-    /// `RUNVIL_GATEWAY_API_KEY` is missing or empty.
-    pub fn from_env() -> Result<GatewayChat, Error> {
-        from_env_with(|name| match std::env::var(name) {
-            Ok(value) => Ok(Some(value)),
-            Err(std::env::VarError::NotPresent) => Ok(None),
-            // A set-but-non-Unicode value is a real misconfiguration, surfaced
-            // explicitly instead of being silently treated as "not set".
-            Err(std::env::VarError::NotUnicode(_)) => Err(make_invalid_env_error(name)),
-        })
     }
 
     /// Sends a list of messages to the gateway and returns the model's reply.
@@ -315,29 +282,6 @@ impl GatewayChat {
             Instant::now,
         )
         .await
-    }
-}
-
-/// The environment-driven constructor behind [`GatewayChat::from_env`],
-/// with the variable lookup injected so tests need not touch the process
-/// environment.
-///
-/// The key is optional exactly when the URL's host is loopback; an empty key
-/// counts as unset ([`SecretString::new`] refuses only an empty secret, and
-/// `Result::ok` folds that refusal into `None`).
-fn from_env_with(
-    lookup: impl Fn(&str) -> Result<Option<String>, Error>,
-) -> Result<GatewayChat, Error> {
-    let base_url = lookup("RUNVIL_GATEWAY_URL")?
-        .ok_or_else(|| make_missing_env_error("RUNVIL_GATEWAY_URL"))?;
-    let endpoint = GatewayEndpoint::new(&base_url)?;
-    let key = lookup("RUNVIL_GATEWAY_API_KEY")?
-        .map(SecretString::new)
-        .and_then(Result::ok);
-    match key {
-        Some(key) => Ok(GatewayChat::new(endpoint, key)),
-        None if endpoint.is_loopback() => Ok(GatewayChat::keyless(endpoint)),
-        None => Err(make_missing_env_error("RUNVIL_GATEWAY_API_KEY")),
     }
 }
 

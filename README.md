@@ -26,6 +26,22 @@ if let Outcome::Text(answer) = reply.outcome() {
 }
 ```
 
+## Finding a Gateway
+
+A `Gateway` says where a Gateway is and how to log in. A program that knows the address builds one with `Gateway::new` and `with_key`. There are two ways to find one without an address:
+
+- `Gateway::find()` reads `<home>/.runvil/run/gateway.json`, the file that a Gateway on this machine writes after it binds. It proves the Gateway is live before it trusts the file, and it never deletes the file. The call blocks for up to about two seconds, so a program on an async runtime calls it from a blocking task. The `discovery` feature gives it, and the feature is on by default.
+- `Gateway::find_env()` reads `RUNVIL_GATEWAY_URL` and `RUNVIL_GATEWAY_API_KEY`, and `Gateway::find_env_named(url_var, key_var)` reads the names you choose. The key is optional for a loopback URL and required for any other host.
+
+```rust
+use gateway_client::Gateway;
+
+let gateway = Gateway::find().or_else(|_| Gateway::find_env())?;
+let client = gateway.client();
+```
+
+The Gateway writes the file, and the program that launches a Gateway starts and stops it. This crate only reads the file. A program that talks to a stock server and wants no platform code turns the feature off with `default-features = false`.
+
 `complete` takes its messages as any type that serde writes as a chat-completions message, so a program with its own message type passes it as it is. The callback gets each piece of the reply as it streams in. A runnable version is in [examples/chat.rs](crates/gateway-client/examples/chat.rs).
 
 ## License

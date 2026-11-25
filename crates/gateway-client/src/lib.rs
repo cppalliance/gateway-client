@@ -10,6 +10,12 @@
 //! returns the one [`Reply`] the round produced. [`fetch_models`] lists the
 //! server's models.
 //!
+//! [`Gateway`] says where a Gateway is and how to log in. A program that knows
+//! the address builds one with [`Gateway::new`]. A program configured through
+//! the environment calls [`Gateway::find_env`]. With the `discovery` feature,
+//! which is on by default, `Gateway::find` reads the file that a Gateway on
+//! this machine writes. [`Gateway::client`] makes the [`GatewayChat`] for it.
+//!
 //! A round takes its messages as any type that serde writes as a
 //! chat-completions message, so a caller with its own message type passes it
 //! as it is. [`Message`] is for a caller that has none. [`Tool`] and
@@ -27,15 +33,18 @@
 //!   it.
 //! - A client sends requests without a key only when the caller builds it with
 //!   `GatewayChat::keyless`, which does not check the endpoint's address, or
-//!   when `GatewayChat::from_env` finds no key for a loopback URL. A client
+//!   when [`Gateway::find_env`] finds no key for a loopback URL. A client
 //!   built with `GatewayChat::disabled` holds no key and sends no requests.
 //! - The reply of a round has passed one set of rules: the byte cap, the
 //!   `[DONE]` sentinel, the truncation rule for a batch of tool calls, and the
 //!   strict turn parse.
 
 mod config;
+#[cfg(feature = "discovery")]
+mod discovery;
 mod error;
 mod failure;
+mod gateway;
 mod message;
 mod models;
 mod options;
@@ -45,6 +54,7 @@ mod wire;
 
 pub use config::{GatewayEndpoint, SecretString};
 pub use error::{Error, ErrorKind};
+pub use gateway::Gateway;
 pub use message::{Message, Role};
 pub use models::{Model, Thinking, fetch_models};
 pub use options::{Options, Tool};
