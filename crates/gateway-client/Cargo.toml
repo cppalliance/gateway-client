@@ -1,0 +1,39 @@
+[package]
+name = "gateway-client"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+# Names `bytes::Bytes`, the buffer `reqwest` yields per body chunk, as the
+# reassembly's chunk type so no chunk is copied on its way in.
+bytes.workspace = true
+reqwest.workspace = true
+# Derives the private wire shapes of the `usage` metadata section and of the
+# `GET /v1/models` list, and the client's `Message`.
+serde.workspace = true
+# The request body, every streamed payload, and the reassembled response are
+# JSON.
+serde_json.workspace = true
+# `time` for the per-receive timeout. Non-test code spawns no task.
+tokio.workspace = true
+url.workspace = true
+
+[features]
+# Reserved for the discovery reader, which a later change adds. Until then it
+# is empty and off.
+default = []
+discovery = []
+
+[dev-dependencies]
+# The mock gateways the client tests send real rounds to.
+axum.workspace = true
+# The raw-socket mocks read the request and write paced or truncated
+# responses by hand, and the transport tests pause tokio's clock.
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net", "io-util", "test-util"] }
+
+[lints]
+workspace = true
