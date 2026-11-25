@@ -51,3 +51,45 @@ pub(crate) fn make_malformed_error(specific: impl Display) -> Error {
 pub(crate) fn with_detail(error: Error, text: &str) -> Error {
     error.with_detail(text)
 }
+
+#[cfg(test)]
+mod tests {
+    use std::time::Duration;
+
+    use super::*;
+
+    #[tokio::test]
+    async fn each_helper_uses_the_fixed_phrase_for_its_code() {
+        let elapsed_error =
+            tokio::time::timeout(Duration::from_millis(1), std::future::pending::<()>())
+                .await
+                .expect_err("a pending future elapses");
+        let cause = elapsed_error.to_string();
+        let timed_out = make_elapsed_error(elapsed_error);
+        assert_eq!(timed_out.kind, ErrorKind::Timeout);
+        assert_eq!(
+            timed_out.summary,
+            "the model backend did not answer in time"
+        );
+        assert!(
+            timed_out.message.contains(&cause) && !timed_out.summary.contains(&cause),
+            "the elapsed error is in the message only: {timed_out:?}"
+        );
+
+        let disabled = make_unavailable_error();
+        assert_eq!(disabled.kind, ErrorKind::Unavailable);
+        assert_eq!(
+            disabled.to_string(),
+            "model access is turned off or not configured"
+        );
+
+        let unreadable = make_malformed_error("model list body exceeds the 8-byte limit");
+        assert_eq!(unreadable.kind, ErrorKind::MalformedResponse);
+        assert_eq!(
+            unreadable.to_string(),
+            "the model backend sent a reply that could not be understood: \
+             model list body exceeds the 8-byte limit"
+        );
+        assert_eq!(unreadable.message, unreadable.summary);
+    }
+}

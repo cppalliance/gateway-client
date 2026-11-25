@@ -3,6 +3,7 @@
 
 use std::collections::HashSet;
 
+use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
 
 use crate::error::Error;
@@ -119,13 +120,18 @@ impl Usage {
 }
 
 /// Timing the client measured on its own clock.
-#[derive(Debug, Clone, PartialEq)]
+///
+/// It writes and reads as JSON, so a caller that records a round can store the
+/// timing as text and read back exactly the value it stored.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ClientTiming {
     /// Milliseconds from sending the request to the first streamed token,
     /// when the stream produced one.
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub ttft_ms: Option<f64>,
     /// Mean inter-token latency in milliseconds, when at least two tokens
     /// streamed.
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub mean_itl_ms: Option<f64>,
     /// Milliseconds from sending the request to the completed response.
     pub e2e_ms: f64,

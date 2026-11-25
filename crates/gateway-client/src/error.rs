@@ -98,7 +98,7 @@ pub struct Error {
     /// The HTTP status of a failed response, when there was one.
     pub status: Option<u16>,
     /// The `finish_reason` of an empty reply.
-    pub finish_reason: Option<String>,
+    pub finish_reason: Option<Box<str>>,
     /// Tokens in the prompt, when a context overflow named them.
     pub prompt_tokens: Option<u32>,
     /// The model's context window, when a context overflow named it.
@@ -106,7 +106,7 @@ pub struct Error {
     /// Which setup rule failed, for [`ErrorKind::InvalidConfig`].
     pub reason: Option<&'static str>,
     /// The environment variable a setup error names.
-    pub name: Option<String>,
+    pub name: Option<Box<str>>,
 }
 
 impl Error {
@@ -226,3 +226,85 @@ impl fmt::Display for Error {
 }
 
 impl std::error::Error for Error {}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// A cause with an optional cause under it.
+    #[derive(Debug)]
+    struct Chain(&'static str, Option<Box<Chain>>);
+
+    impl fmt::Display for Chain {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            f.write_str(self.0)
+        }
+    }
+
+    impl std::error::Error for Chain {
+        fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+            self.1
+                .as_deref()
+                .map(|inner| inner as &(dyn std::error::Error + 'static))
+        }
+    }
+
+    #[test]
+    fn every_kind_has_one_distinct_phrase_and_all_lists_each_kind_once() {
+        let mut phrases: Vec<&str> = ErrorKind::ALL.map(ErrorKind::phrase).to_vec();
+        phrases.sort_unstable();
+        phrases.dedup();
+        assert_eq!(
+            phrases.len(),
+            ErrorKind::ALL.len(),
+            "no two kinds share a phrase"
+        );
+        assert!(phrases.iter().all(|phrase| !phrase.is_empty()));
+    }
+
+    #[test]
+    fn display_prints_the_summary_and_never_the_server_text() {
+        let error = Error::phrased(ErrorKind::Rejected).with_detail("secret server text");
+        assert_eq!(error.to_string(), ErrorKind::Rejected.phrase());
+        assert!(error.message.ends_with(": secret server text"));
+        assert!(!error.summary.contains("secret"));
+    }
+
+    #[test]
+    fn with_cause_appends_each_cause_after_a_colon() {
+        let cause = Chain("outer", Some(Box::new(Chain("inner", None))));
+        let error = Error::phrased(ErrorKind::Transport).with_cause(&cause);
+        assert_eq!(
+            error.message,
+            format!("{}: outer: inner", ErrorKind::Transport.phrase())
+        );
+        assert_eq!(error.summary, ErrorKind::Transport.phrase());
+    }
+
+    #[test]
+    fn with_cause_skips_text_the_message_already_holds() {
+        let error = Error::new(ErrorKind::Transport, "failed: broken pipe");
+        let error = error.with_cause(&Chain("broken pipe", None));
+        assert_eq!(error.message, "failed: broken pipe");
+    }
+
+    #[test]
+    fn with_cause_adds_only_what_follows_a_repeated_prefix() {
+        let error = Error::new(ErrorKind::Transport, "connect failed");
+        let error = error.with_cause(&Chain("connect failed: refused", None));
+        assert_eq!(error.message, "connect failed: refused");
+    }
+
+    #[test]
+    fn a_setup_error_names_its_reason_and_keeps_two_texts_when_asked() {
+        let error = Error::setup("empty_secret", "secret must not be empty")
+            .with_summary("The secret is empty. Supply a non-empty secret.");
+        assert_eq!(error.kind, ErrorKind::InvalidConfig);
+        assert_eq!(error.reason, Some("empty_secret"));
+        assert_eq!(error.message, "secret must not be empty");
+        assert_eq!(
+            error.summary,
+            "The secret is empty. Supply a non-empty secret."
+        );
+    }
+}
