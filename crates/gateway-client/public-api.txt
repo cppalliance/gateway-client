@@ -1,0 +1,390 @@
+pub mod gateway_client
+pub enum gateway_client::ErrorKind
+pub gateway_client::ErrorKind::ContextOverflow
+pub gateway_client::ErrorKind::EmptyReply
+pub gateway_client::ErrorKind::InvalidConfig
+pub gateway_client::ErrorKind::InvalidRequest
+pub gateway_client::ErrorKind::MalformedResponse
+pub gateway_client::ErrorKind::Overloaded
+pub gateway_client::ErrorKind::QuotaExhausted
+pub gateway_client::ErrorKind::RateLimited
+pub gateway_client::ErrorKind::Refused
+pub gateway_client::ErrorKind::Rejected
+pub gateway_client::ErrorKind::ServerError
+pub gateway_client::ErrorKind::Timeout
+pub gateway_client::ErrorKind::Transport
+pub gateway_client::ErrorKind::Unavailable
+impl gateway_client::ErrorKind
+pub const gateway_client::ErrorKind::ALL: [gateway_client::ErrorKind; 14]
+pub const fn gateway_client::ErrorKind::phrase(self) -> &'static str
+impl core::clone::Clone for gateway_client::ErrorKind
+pub fn gateway_client::ErrorKind::clone(&self) -> gateway_client::ErrorKind
+impl core::cmp::Eq for gateway_client::ErrorKind
+impl core::cmp::PartialEq for gateway_client::ErrorKind
+pub fn gateway_client::ErrorKind::eq(&self, &gateway_client::ErrorKind) -> bool
+impl core::fmt::Debug for gateway_client::ErrorKind
+pub fn gateway_client::ErrorKind::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::hash::Hash for gateway_client::ErrorKind
+pub fn gateway_client::ErrorKind::hash<__H: core::hash::Hasher>(&self, &mut __H)
+impl core::marker::Copy for gateway_client::ErrorKind
+impl core::marker::StructuralPartialEq for gateway_client::ErrorKind
+impl core::marker::Freeze for gateway_client::ErrorKind
+impl core::marker::Send for gateway_client::ErrorKind
+impl core::marker::Sync for gateway_client::ErrorKind
+impl core::marker::Unpin for gateway_client::ErrorKind
+impl core::marker::UnsafeUnpin for gateway_client::ErrorKind
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::ErrorKind
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::ErrorKind
+pub enum gateway_client::Outcome
+pub gateway_client::Outcome::Text(alloc::string::String)
+pub gateway_client::Outcome::ToolCalls(alloc::vec::Vec<gateway_client::ToolCall>)
+impl core::clone::Clone for gateway_client::Outcome
+pub fn gateway_client::Outcome::clone(&self) -> gateway_client::Outcome
+impl core::cmp::Eq for gateway_client::Outcome
+impl core::cmp::PartialEq for gateway_client::Outcome
+pub fn gateway_client::Outcome::eq(&self, &gateway_client::Outcome) -> bool
+impl core::fmt::Debug for gateway_client::Outcome
+pub fn gateway_client::Outcome::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for gateway_client::Outcome
+impl core::marker::Freeze for gateway_client::Outcome
+impl core::marker::Send for gateway_client::Outcome
+impl core::marker::Sync for gateway_client::Outcome
+impl core::marker::Unpin for gateway_client::Outcome
+impl core::marker::UnsafeUnpin for gateway_client::Outcome
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::Outcome
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::Outcome
+pub enum gateway_client::Role
+pub gateway_client::Role::Assistant
+pub gateway_client::Role::System
+pub gateway_client::Role::Tool
+pub gateway_client::Role::User
+impl core::clone::Clone for gateway_client::Role
+pub fn gateway_client::Role::clone(&self) -> gateway_client::Role
+impl core::cmp::Eq for gateway_client::Role
+impl core::cmp::PartialEq for gateway_client::Role
+pub fn gateway_client::Role::eq(&self, &gateway_client::Role) -> bool
+impl core::fmt::Debug for gateway_client::Role
+pub fn gateway_client::Role::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for gateway_client::Role
+impl core::marker::StructuralPartialEq for gateway_client::Role
+impl serde_core::ser::Serialize for gateway_client::Role
+pub fn gateway_client::Role::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl core::marker::Freeze for gateway_client::Role
+impl core::marker::Send for gateway_client::Role
+impl core::marker::Sync for gateway_client::Role
+impl core::marker::Unpin for gateway_client::Role
+impl core::marker::UnsafeUnpin for gateway_client::Role
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::Role
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::Role
+pub enum gateway_client::StreamDelta
+pub gateway_client::StreamDelta::Reasoning(alloc::string::String)
+pub gateway_client::StreamDelta::Text(alloc::string::String)
+impl core::clone::Clone for gateway_client::StreamDelta
+pub fn gateway_client::StreamDelta::clone(&self) -> gateway_client::StreamDelta
+impl core::cmp::Eq for gateway_client::StreamDelta
+impl core::cmp::PartialEq for gateway_client::StreamDelta
+pub fn gateway_client::StreamDelta::eq(&self, &gateway_client::StreamDelta) -> bool
+impl core::fmt::Debug for gateway_client::StreamDelta
+pub fn gateway_client::StreamDelta::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for gateway_client::StreamDelta
+impl core::marker::Freeze for gateway_client::StreamDelta
+impl core::marker::Send for gateway_client::StreamDelta
+impl core::marker::Sync for gateway_client::StreamDelta
+impl core::marker::Unpin for gateway_client::StreamDelta
+impl core::marker::UnsafeUnpin for gateway_client::StreamDelta
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::StreamDelta
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::StreamDelta
+pub enum gateway_client::Thinking
+pub gateway_client::Thinking::Always
+pub gateway_client::Thinking::Never
+pub gateway_client::Thinking::Switchable
+impl core::clone::Clone for gateway_client::Thinking
+pub fn gateway_client::Thinking::clone(&self) -> gateway_client::Thinking
+impl core::cmp::Eq for gateway_client::Thinking
+impl core::cmp::PartialEq for gateway_client::Thinking
+pub fn gateway_client::Thinking::eq(&self, &gateway_client::Thinking) -> bool
+impl core::fmt::Debug for gateway_client::Thinking
+pub fn gateway_client::Thinking::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for gateway_client::Thinking
+impl core::marker::StructuralPartialEq for gateway_client::Thinking
+impl<'de> serde_core::de::Deserialize<'de> for gateway_client::Thinking
+pub fn gateway_client::Thinking::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+impl core::marker::Freeze for gateway_client::Thinking
+impl core::marker::Send for gateway_client::Thinking
+impl core::marker::Sync for gateway_client::Thinking
+impl core::marker::Unpin for gateway_client::Thinking
+impl core::marker::UnsafeUnpin for gateway_client::Thinking
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::Thinking
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::Thinking
+pub struct gateway_client::ClientTiming
+pub gateway_client::ClientTiming::e2e_ms: f64
+pub gateway_client::ClientTiming::mean_itl_ms: core::option::Option<f64>
+pub gateway_client::ClientTiming::ttft_ms: core::option::Option<f64>
+impl gateway_client::ClientTiming
+pub fn gateway_client::ClientTiming::new(f64) -> gateway_client::ClientTiming
+pub fn gateway_client::ClientTiming::with_mean_itl_ms(self, core::option::Option<f64>) -> gateway_client::ClientTiming
+pub fn gateway_client::ClientTiming::with_ttft_ms(self, core::option::Option<f64>) -> gateway_client::ClientTiming
+impl core::clone::Clone for gateway_client::ClientTiming
+pub fn gateway_client::ClientTiming::clone(&self) -> gateway_client::ClientTiming
+impl core::cmp::PartialEq for gateway_client::ClientTiming
+pub fn gateway_client::ClientTiming::eq(&self, &gateway_client::ClientTiming) -> bool
+impl core::fmt::Debug for gateway_client::ClientTiming
+pub fn gateway_client::ClientTiming::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for gateway_client::ClientTiming
+impl serde_core::ser::Serialize for gateway_client::ClientTiming
+pub fn gateway_client::ClientTiming::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for gateway_client::ClientTiming
+pub fn gateway_client::ClientTiming::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+impl core::marker::Freeze for gateway_client::ClientTiming
+impl core::marker::Send for gateway_client::ClientTiming
+impl core::marker::Sync for gateway_client::ClientTiming
+impl core::marker::Unpin for gateway_client::ClientTiming
+impl core::marker::UnsafeUnpin for gateway_client::ClientTiming
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::ClientTiming
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::ClientTiming
+pub struct gateway_client::Error
+pub gateway_client::Error::context_window: core::option::Option<u32>
+pub gateway_client::Error::finish_reason: core::option::Option<alloc::boxed::Box<str>>
+pub gateway_client::Error::kind: gateway_client::ErrorKind
+pub gateway_client::Error::message: alloc::string::String
+pub gateway_client::Error::name: core::option::Option<alloc::boxed::Box<str>>
+pub gateway_client::Error::prompt_tokens: core::option::Option<u32>
+pub gateway_client::Error::reason: core::option::Option<&'static str>
+pub gateway_client::Error::status: core::option::Option<u16>
+pub gateway_client::Error::summary: alloc::string::String
+impl core::clone::Clone for gateway_client::Error
+pub fn gateway_client::Error::clone(&self) -> gateway_client::Error
+impl core::cmp::Eq for gateway_client::Error
+impl core::cmp::PartialEq for gateway_client::Error
+pub fn gateway_client::Error::eq(&self, &gateway_client::Error) -> bool
+impl core::error::Error for gateway_client::Error
+impl core::fmt::Debug for gateway_client::Error
+pub fn gateway_client::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for gateway_client::Error
+pub fn gateway_client::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for gateway_client::Error
+impl core::marker::Freeze for gateway_client::Error
+impl core::marker::Send for gateway_client::Error
+impl core::marker::Sync for gateway_client::Error
+impl core::marker::Unpin for gateway_client::Error
+impl core::marker::UnsafeUnpin for gateway_client::Error
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::Error
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::Error
+pub struct gateway_client::GatewayChat
+impl gateway_client::GatewayChat
+pub async fn gateway_client::GatewayChat::complete<M: serde_core::ser::Serialize + core::marker::Sync>(&self, &[M], core::option::Option<&[gateway_client::Tool]>, &gateway_client::Options, impl core::ops::function::Fn(gateway_client::StreamDelta)) -> core::result::Result<gateway_client::Reply, gateway_client::Error>
+pub fn gateway_client::GatewayChat::disabled() -> gateway_client::GatewayChat
+pub fn gateway_client::GatewayChat::from_env() -> core::result::Result<gateway_client::GatewayChat, gateway_client::Error>
+pub fn gateway_client::GatewayChat::keyless(gateway_client::GatewayEndpoint) -> gateway_client::GatewayChat
+pub fn gateway_client::GatewayChat::new(gateway_client::GatewayEndpoint, gateway_client::SecretString) -> gateway_client::GatewayChat
+pub fn gateway_client::GatewayChat::with_request_limits(self, core::time::Duration, core::num::nonzero::NonZeroU64) -> gateway_client::GatewayChat
+impl core::clone::Clone for gateway_client::GatewayChat
+pub fn gateway_client::GatewayChat::clone(&self) -> gateway_client::GatewayChat
+impl core::fmt::Debug for gateway_client::GatewayChat
+pub fn gateway_client::GatewayChat::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Freeze for gateway_client::GatewayChat
+impl core::marker::Send for gateway_client::GatewayChat
+impl core::marker::Sync for gateway_client::GatewayChat
+impl core::marker::Unpin for gateway_client::GatewayChat
+impl core::marker::UnsafeUnpin for gateway_client::GatewayChat
+impl !core::panic::unwind_safe::RefUnwindSafe for gateway_client::GatewayChat
+impl !core::panic::unwind_safe::UnwindSafe for gateway_client::GatewayChat
+pub struct gateway_client::GatewayEndpoint
+impl gateway_client::GatewayEndpoint
+pub fn gateway_client::GatewayEndpoint::is_loopback(&self) -> bool
+pub fn gateway_client::GatewayEndpoint::new(&str) -> core::result::Result<gateway_client::GatewayEndpoint, gateway_client::Error>
+pub fn gateway_client::GatewayEndpoint::url(&self) -> &str
+impl core::clone::Clone for gateway_client::GatewayEndpoint
+pub fn gateway_client::GatewayEndpoint::clone(&self) -> gateway_client::GatewayEndpoint
+impl core::cmp::Eq for gateway_client::GatewayEndpoint
+impl core::cmp::PartialEq for gateway_client::GatewayEndpoint
+pub fn gateway_client::GatewayEndpoint::eq(&self, &gateway_client::GatewayEndpoint) -> bool
+impl core::convert::TryFrom<&str> for gateway_client::GatewayEndpoint
+pub type gateway_client::GatewayEndpoint::Error = gateway_client::Error
+pub fn gateway_client::GatewayEndpoint::try_from(&str) -> core::result::Result<gateway_client::GatewayEndpoint, gateway_client::Error>
+impl core::fmt::Debug for gateway_client::GatewayEndpoint
+pub fn gateway_client::GatewayEndpoint::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for gateway_client::GatewayEndpoint
+impl core::marker::Freeze for gateway_client::GatewayEndpoint
+impl core::marker::Send for gateway_client::GatewayEndpoint
+impl core::marker::Sync for gateway_client::GatewayEndpoint
+impl core::marker::Unpin for gateway_client::GatewayEndpoint
+impl core::marker::UnsafeUnpin for gateway_client::GatewayEndpoint
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::GatewayEndpoint
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::GatewayEndpoint
+pub struct gateway_client::Message
+impl gateway_client::Message
+pub fn gateway_client::Message::text(gateway_client::Role, impl core::convert::Into<alloc::string::String>) -> gateway_client::Message
+pub fn gateway_client::Message::tool(impl core::convert::Into<alloc::string::String>, impl core::convert::Into<alloc::string::String>) -> gateway_client::Message
+impl core::clone::Clone for gateway_client::Message
+pub fn gateway_client::Message::clone(&self) -> gateway_client::Message
+impl core::cmp::Eq for gateway_client::Message
+impl core::cmp::PartialEq for gateway_client::Message
+pub fn gateway_client::Message::eq(&self, &gateway_client::Message) -> bool
+impl core::fmt::Debug for gateway_client::Message
+pub fn gateway_client::Message::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for gateway_client::Message
+impl serde_core::ser::Serialize for gateway_client::Message
+pub fn gateway_client::Message::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl core::marker::Freeze for gateway_client::Message
+impl core::marker::Send for gateway_client::Message
+impl core::marker::Sync for gateway_client::Message
+impl core::marker::Unpin for gateway_client::Message
+impl core::marker::UnsafeUnpin for gateway_client::Message
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::Message
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::Message
+pub struct gateway_client::Model
+pub gateway_client::Model::context: core::option::Option<u32>
+pub gateway_client::Model::description: alloc::string::String
+pub gateway_client::Model::id: alloc::string::String
+pub gateway_client::Model::provider: core::option::Option<alloc::string::String>
+pub gateway_client::Model::thinking: core::option::Option<gateway_client::Thinking>
+impl core::clone::Clone for gateway_client::Model
+pub fn gateway_client::Model::clone(&self) -> gateway_client::Model
+impl core::cmp::Eq for gateway_client::Model
+impl core::cmp::PartialEq for gateway_client::Model
+pub fn gateway_client::Model::eq(&self, &gateway_client::Model) -> bool
+impl core::fmt::Debug for gateway_client::Model
+pub fn gateway_client::Model::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for gateway_client::Model
+impl core::marker::Freeze for gateway_client::Model
+impl core::marker::Send for gateway_client::Model
+impl core::marker::Sync for gateway_client::Model
+impl core::marker::Unpin for gateway_client::Model
+impl core::marker::UnsafeUnpin for gateway_client::Model
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::Model
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::Model
+pub struct gateway_client::Options
+impl gateway_client::Options
+pub fn gateway_client::Options::max_tokens(&self) -> core::option::Option<core::num::nonzero::NonZeroU32>
+pub fn gateway_client::Options::model(&self) -> &str
+pub fn gateway_client::Options::new(impl core::convert::Into<alloc::string::String>) -> gateway_client::Options
+pub fn gateway_client::Options::temperature(&self) -> core::option::Option<f64>
+pub fn gateway_client::Options::thinking(&self) -> core::option::Option<bool>
+pub fn gateway_client::Options::with_max_tokens(self, core::num::nonzero::NonZeroU32) -> gateway_client::Options
+pub fn gateway_client::Options::with_temperature(self, f64) -> gateway_client::Options
+pub fn gateway_client::Options::with_thinking(self, bool) -> gateway_client::Options
+impl core::clone::Clone for gateway_client::Options
+pub fn gateway_client::Options::clone(&self) -> gateway_client::Options
+impl core::cmp::PartialEq for gateway_client::Options
+pub fn gateway_client::Options::eq(&self, &gateway_client::Options) -> bool
+impl core::fmt::Debug for gateway_client::Options
+pub fn gateway_client::Options::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for gateway_client::Options
+impl core::marker::Freeze for gateway_client::Options
+impl core::marker::Send for gateway_client::Options
+impl core::marker::Sync for gateway_client::Options
+impl core::marker::Unpin for gateway_client::Options
+impl core::marker::UnsafeUnpin for gateway_client::Options
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::Options
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::Options
+pub struct gateway_client::Reply
+impl gateway_client::Reply
+pub fn gateway_client::Reply::diagnostics(&self) -> &[alloc::string::String]
+pub fn gateway_client::Reply::finish_reason(&self) -> core::option::Option<&str>
+pub fn gateway_client::Reply::model(&self) -> &str
+pub fn gateway_client::Reply::outcome(&self) -> &gateway_client::Outcome
+pub fn gateway_client::Reply::reasoning(&self) -> core::option::Option<&str>
+pub fn gateway_client::Reply::request(&self) -> &serde_json::value::Value
+pub fn gateway_client::Reply::response(&self) -> &serde_json::value::Value
+pub fn gateway_client::Reply::timing(&self) -> core::option::Option<&gateway_client::ClientTiming>
+pub fn gateway_client::Reply::usage(&self) -> core::option::Option<&gateway_client::Usage>
+impl core::clone::Clone for gateway_client::Reply
+pub fn gateway_client::Reply::clone(&self) -> gateway_client::Reply
+impl core::cmp::PartialEq for gateway_client::Reply
+pub fn gateway_client::Reply::eq(&self, &gateway_client::Reply) -> bool
+impl core::fmt::Debug for gateway_client::Reply
+pub fn gateway_client::Reply::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for gateway_client::Reply
+impl core::marker::Freeze for gateway_client::Reply
+impl core::marker::Send for gateway_client::Reply
+impl core::marker::Sync for gateway_client::Reply
+impl core::marker::Unpin for gateway_client::Reply
+impl core::marker::UnsafeUnpin for gateway_client::Reply
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::Reply
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::Reply
+pub struct gateway_client::SecretString(_)
+impl gateway_client::SecretString
+pub fn gateway_client::SecretString::expose_secret(&self) -> &str
+pub fn gateway_client::SecretString::new(impl core::convert::Into<alloc::string::String>) -> core::result::Result<gateway_client::SecretString, gateway_client::Error>
+impl core::clone::Clone for gateway_client::SecretString
+pub fn gateway_client::SecretString::clone(&self) -> gateway_client::SecretString
+impl core::fmt::Debug for gateway_client::SecretString
+pub fn gateway_client::SecretString::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for gateway_client::SecretString
+pub fn gateway_client::SecretString::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Freeze for gateway_client::SecretString
+impl core::marker::Send for gateway_client::SecretString
+impl core::marker::Sync for gateway_client::SecretString
+impl core::marker::Unpin for gateway_client::SecretString
+impl core::marker::UnsafeUnpin for gateway_client::SecretString
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::SecretString
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::SecretString
+pub struct gateway_client::Tool
+impl gateway_client::Tool
+pub fn gateway_client::Tool::description(&self) -> &str
+pub fn gateway_client::Tool::name(&self) -> &str
+pub fn gateway_client::Tool::new(impl core::convert::Into<alloc::string::String>, impl core::convert::Into<alloc::string::String>, serde_json::map::Map<alloc::string::String, serde_json::value::Value>) -> gateway_client::Tool
+pub fn gateway_client::Tool::parameters(&self) -> &serde_json::map::Map<alloc::string::String, serde_json::value::Value>
+impl core::clone::Clone for gateway_client::Tool
+pub fn gateway_client::Tool::clone(&self) -> gateway_client::Tool
+impl core::cmp::Eq for gateway_client::Tool
+impl core::cmp::PartialEq for gateway_client::Tool
+pub fn gateway_client::Tool::eq(&self, &gateway_client::Tool) -> bool
+impl core::fmt::Debug for gateway_client::Tool
+pub fn gateway_client::Tool::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for gateway_client::Tool
+impl core::marker::Freeze for gateway_client::Tool
+impl core::marker::Send for gateway_client::Tool
+impl core::marker::Sync for gateway_client::Tool
+impl core::marker::Unpin for gateway_client::Tool
+impl core::marker::UnsafeUnpin for gateway_client::Tool
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::Tool
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::Tool
+pub struct gateway_client::ToolCall
+impl gateway_client::ToolCall
+pub fn gateway_client::ToolCall::arguments(&self) -> &serde_json::map::Map<alloc::string::String, serde_json::value::Value>
+pub fn gateway_client::ToolCall::id(&self) -> &str
+pub fn gateway_client::ToolCall::name(&self) -> &str
+impl core::clone::Clone for gateway_client::ToolCall
+pub fn gateway_client::ToolCall::clone(&self) -> gateway_client::ToolCall
+impl core::cmp::Eq for gateway_client::ToolCall
+impl core::cmp::PartialEq for gateway_client::ToolCall
+pub fn gateway_client::ToolCall::eq(&self, &gateway_client::ToolCall) -> bool
+impl core::fmt::Debug for gateway_client::ToolCall
+pub fn gateway_client::ToolCall::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for gateway_client::ToolCall
+impl core::marker::Freeze for gateway_client::ToolCall
+impl core::marker::Send for gateway_client::ToolCall
+impl core::marker::Sync for gateway_client::ToolCall
+impl core::marker::Unpin for gateway_client::ToolCall
+impl core::marker::UnsafeUnpin for gateway_client::ToolCall
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::ToolCall
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::ToolCall
+pub struct gateway_client::Usage
+pub gateway_client::Usage::cached_tokens: core::option::Option<u32>
+pub gateway_client::Usage::completion_tokens: u32
+pub gateway_client::Usage::prompt_tokens: u32
+pub gateway_client::Usage::reasoning_tokens: core::option::Option<u32>
+pub gateway_client::Usage::total_tokens: u32
+impl gateway_client::Usage
+pub fn gateway_client::Usage::new(u32, u32, u32) -> gateway_client::Usage
+pub fn gateway_client::Usage::with_cached_tokens(self, core::option::Option<u32>) -> gateway_client::Usage
+pub fn gateway_client::Usage::with_reasoning_tokens(self, core::option::Option<u32>) -> gateway_client::Usage
+impl core::clone::Clone for gateway_client::Usage
+pub fn gateway_client::Usage::clone(&self) -> gateway_client::Usage
+impl core::cmp::Eq for gateway_client::Usage
+impl core::cmp::PartialEq for gateway_client::Usage
+pub fn gateway_client::Usage::eq(&self, &gateway_client::Usage) -> bool
+impl core::fmt::Debug for gateway_client::Usage
+pub fn gateway_client::Usage::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for gateway_client::Usage
+impl core::marker::Freeze for gateway_client::Usage
+impl core::marker::Send for gateway_client::Usage
+impl core::marker::Sync for gateway_client::Usage
+impl core::marker::Unpin for gateway_client::Usage
+impl core::marker::UnsafeUnpin for gateway_client::Usage
+impl core::panic::unwind_safe::RefUnwindSafe for gateway_client::Usage
+impl core::panic::unwind_safe::UnwindSafe for gateway_client::Usage
+pub fn gateway_client::escape_controls(&str, usize) -> alloc::string::String
+pub async fn gateway_client::fetch_models(&str, &gateway_client::SecretString) -> core::result::Result<alloc::vec::Vec<gateway_client::Model>, gateway_client::Error>
